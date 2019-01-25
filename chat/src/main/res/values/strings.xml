@@ -1,0 +1,5 @@
+<resources>
+    <string name="module_chat_app_name">Chat</string>
+    <string name="module_chat_pressandtalk">按住说话</string>
+    <string name="module_chat_sendBtn">发送</string>
+</resources>

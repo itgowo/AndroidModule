@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/module_chat_rootlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ChatActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/module_chat_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/module_chat_swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/module_chat_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/module_chat_bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/module_chat_bottomLayout_firstline"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/module_chat_input_type_switch"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="8dp" />
+
+            <EditText
+                android:id="@+id/module_chat_input_et"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:focusedByDefault="false" />
+
+            <Button
+                android:id="@+id/module_chat_voice_btn"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:text="@string/module_chat_pressandtalk"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/module_chat_emoji"
+                android:layout_width="35dp"
+
+                android:layout_height="35dp"
+                android:layout_marginRight="8dp" />
+
+            <Button
+                android:id="@+id/module_chat_other"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="10dp"
+                android:textSize="14sp"
+                android:button="@null"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/module_chat_bottomLayout_grid"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:visibility="gone">
+
+            <com.itgowo.module.chat.GridPageView
+                android:id="@+id/module_chat_bottomLayout_gridview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></com.itgowo.module.chat.GridPageView>
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

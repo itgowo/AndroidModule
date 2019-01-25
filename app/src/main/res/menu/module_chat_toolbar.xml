@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/module_chat_more"
+        android:name="+"
+        app:showAsAction="always">
+
+
+        <menu>
+            <item
+                android:id="@+id/guilde"
+                android:icon="@drawable/dynamic_share"
+                android:name="fff"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/sample_rate"
+                android:icon="@drawable/dynamic_comment"
+                android:name="采样率"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/draw_or_not"
+                android:icon="@drawable/dynamic_praise"
+                android:name="波形"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/points_num"
+                android:name="数据长度"
+                app:showAsAction="always" />
+        </menu>
+    </item>
+</menu>
