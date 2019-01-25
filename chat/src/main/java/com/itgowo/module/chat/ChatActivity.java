@@ -370,4 +370,16 @@ public class ChatActivity extends AppCompatActivity {
     public int getInputKeyboardHeight() {
         return getSharedPreferences("AndroidModule", Context.MODE_PRIVATE).getInt("InputKeyboardHeight", 400);
     }
+
+    @Override
+    public void onBackPressed() {
+        if (moduleChatBottomLayoutGrid.getVisibility()==View.VISIBLE){
+            moduleChatBottomLayoutGrid.setVisibility(View.GONE);
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            moduleChatEmojiBtn.setSelected(false);
+            moduleChatOtherBtn.setSelected(false);
+        }else {
+            super.onBackPressed();
+        }
+    }
 }
