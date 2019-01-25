@@ -131,7 +131,7 @@ public class ChatActivity extends AppCompatActivity {
                 keyboardLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() { // 输入法弹出之后，重新调整
-                        moduleChatOtherBtn.setSelected(false);
+                        keyboardLayout.setmIsKeyboardActive(true);
                         moduleChatBottomLayoutGrid.setVisibility(View.GONE);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     }
@@ -232,6 +232,7 @@ public class ChatActivity extends AppCompatActivity {
                         moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
                     }
                 }
+                hideSoftKeyboard(v);
             }
         } else {
             viewListener.onSendButtonClick(moduleChatInputEt, moduleChatInputEt.getText().toString().trim());
