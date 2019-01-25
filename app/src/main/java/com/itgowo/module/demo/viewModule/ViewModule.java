@@ -132,7 +132,7 @@ public class ViewModule implements onViewModuleListener {
 
             @Override
             public View getGridItemView(int position) {
-                ImageView view=new ImageView(messenger.getContext());
+                ImageView view = new ImageView(messenger.getContext());
                 view.setImageResource(R.drawable.dynamic_praise);
                 return view;
             }

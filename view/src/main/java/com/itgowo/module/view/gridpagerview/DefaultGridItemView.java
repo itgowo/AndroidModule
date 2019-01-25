@@ -25,6 +25,7 @@ public class DefaultGridItemView extends LinearLayout {
         LinearLayout.LayoutParams l = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
         l.weight = 1;
         imageButton.setLayoutParams(l);
+        imageButton.setClickable(false);
         imageButton.setId(R.id.module_view_GridPagerView_item_imagebutton);
         textView = new AppCompatTextView(getContext());
         textView.setGravity(Gravity.CENTER);
