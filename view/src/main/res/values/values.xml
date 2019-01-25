@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="module_view_GridPagerView_indicatorViewBottomMargin">5dp</dimen>
+    <dimen name="module_view_GridPagerView_indicatorViewPaddingTop">5dp</dimen>
+    <dimen name="module_view_GridPagerView_indicatorViewHeight">20dp</dimen>
+    <item name="module_view_indicatorView" type="id" />
+    <item name="module_view_GridPagerView" type="id" />
+    <item name="module_view_GridPagerView_item_textview" type="id" />
+    <item name="module_view_GridPagerView_item_imagebutton" type="id" />
+    <string name="module_view_temptext">ModuleView</string>
+</resources>

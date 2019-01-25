@@ -9,15 +9,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.itgowo.module.chat.ChatResource;
-import com.itgowo.module.chat.GridPageView;
 import com.itgowo.module.chat.ItemData;
 import com.itgowo.module.chat.Messenger;
 import com.itgowo.module.chat.ViewAction;
 import com.itgowo.module.chat.onViewModuleListener;
+import com.itgowo.module.view.gridpagerview.GridPagerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,19 +36,23 @@ public class ViewModule implements onViewModuleListener {
 
     @Override
     public void onCreateActivity(AppCompatActivity activity, ChatResource resource) {
-//            resource.setResourceIcon_EmojiButtion(R.drawable.ic_launcher);
-        this.context=activity;
-        resource.setResourceIcon_InputTypeButtion_Keyboard1(R.drawable.followup_chat_keyboard1);
-        resource.setResourceIcon_InputTypeButtion_Keyboard2(R.drawable.followup_chat_keyboard2);
-        resource.setResourceIcon_InputTypeButtion_Voice(R.drawable.followup_chat_voice);
-        resource.setResourceIcon_OtherButtion(R.drawable.otherbtn);
-        resource.setResourceIcon_SendButtion(R.drawable.send_btn_bg);
-        resource.setResourceText_SendBtn(R.string.module_chat_sendBtn);
-        resource.setResourceBG_FirstLine(R.drawable.bg);
-        resource.setResourceBG_InputET(R.drawable.input_bg);
-        resource.setResourceBG(R.color.chatActivityBackground);
-        resource.setResourceBG_VoiceBtn(R.drawable.voicebtn_bg);
-        resource.setResourceText_VoiceBtn(R.string.module_chat_pressandtalk);
+//            resource.setIconEmojiButtion(R.drawable.ic_launcher);
+        this.context = activity;
+        resource.setIconInputTypeButtionKeyboard1(R.drawable.followup_chat_keyboard1);
+        resource.setIconInputTypeButtionKeyboard2(R.drawable.followup_chat_keyboard2);
+        resource.setIconInputTypeButtionVoice(R.drawable.followup_chat_voice);
+        resource.setIconOtherButtion(R.drawable.otherbtn);
+        resource.setIconEmojiButtion(R.drawable.otherbtn);
+        resource.setIconSendButtion(R.drawable.send_btn_bg);
+        resource.setTextSendBtn(R.string.module_chat_sendBtn);
+        resource.setBgFirstLine(R.drawable.bg);
+        resource.setBgInputET(R.drawable.input_bg);
+        resource.setBgActivity(R.color.chatActivityBackground);
+        resource.setBgVoiceBtn(R.drawable.voicebtn_bg);
+        resource.setTextVoiceBtn(R.string.module_chat_pressandtalk);
+        TextView textView = new TextView(activity);
+        textView.setText("偷梁换柱");
+        resource.setViewVoiceBtn(textView);
     }
 
     @Override
@@ -98,44 +104,60 @@ public class ViewModule implements onViewModuleListener {
     }
 
     @Override
-    public void getListItems(Messenger messenger) {
-        // TODO: 2019/1/23 刷新界面，IM聊天目前没有,第一次加载会触发
-
-    }
-
-    @Override
     public void getMoreHistory(Messenger messenger) {
         // TODO: 2019/1/23 加载历史数据被触发
 
     }
 
     @Override
-    public void onBind(Messenger messenger, RecyclerView recyclerView) {
+    public void onBind(final Messenger messenger, RecyclerView recyclerView) {
         this.messenger = messenger;
-    }
 
-    @Override
-    public void onBindGridItemView(GridPageView.GridItemView itemView) {
-        Glide.with(itemView.itemView).load(itemView.data.imageUrl).into(itemView.imageButton);
-    }
 
-    @Override
-    public void getGridItemList(Messenger messenger) {
-        List<GridPageView.GridItemData> dataList = new ArrayList<>();
-        for (int i = 0; i < 11; i++) {
-            dataList.add(new GridPageView.GridItemData().setImage(R.drawable.ic_launcher).setText("icon" + i));
+        List<GridPagerView.GridItemData> dataList1 = new ArrayList<>();
+        for (int i = 0; i < 310; i++) {
+            dataList1.add(new GridPagerView.GridItemData().setImage(R.drawable.ic_launcher).setText("emoji" + i));
         }
-        messenger.setGridData(dataList);
-    }
+        messenger.setGridPageViewDataList1(dataList1, 5, 10, new GridPagerView.onGridPageViewListener() {
+            @Override
+            public void onBindGridItemView(GridPagerView.GridItemView itemView) {
+                Glide.with(itemView.itemView).load(itemView.data.imageUrl).into(itemView.imageButton);
+            }
 
-    @Override
-    public View getGridItemView(int position) {
-        return null;
-    }
+            @Override
+            public View getGridItemView(int position) {
+                ImageView view=new ImageView(messenger.getContext());
+                view.setImageResource(R.drawable.dynamic_praise);
+                return view;
+            }
 
-    @Override
-    public void onClickGridItem(View view, int position, GridPageView.GridItemView gridItemView, GridPageView.GridItemData data) {
-        Toast.makeText(view.getContext(), "功能模块点击了" + data.text, Toast.LENGTH_SHORT).show();
+            @Override
+            public void onClickGridItem(View view, int position, GridPagerView.GridItemView gridItemView, GridPagerView.GridItemData data) {
+                Toast.makeText(view.getContext(), "Emoji点击了" + data.text, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        List<GridPagerView.GridItemData> dataList2 = new ArrayList<>();
+        for (int i = 0; i < 11; i++) {
+            dataList2.add(new GridPagerView.GridItemData().setImage(R.drawable.ic_launcher).setText("icon" + i));
+        }
+        messenger.setGridPageViewDataList2(dataList2, 2, 4, new GridPagerView.onGridPageViewListener() {
+            @Override
+            public void onBindGridItemView(GridPagerView.GridItemView itemView) {
+                Glide.with(itemView.itemView).load(itemView.data.imageUrl).into(itemView.imageButton);
+            }
+
+            @Override
+            public View getGridItemView(int position) {
+                return null;
+            }
+
+            @Override
+            public void onClickGridItem(View view, int position, GridPagerView.GridItemView gridItemView, GridPagerView.GridItemData data) {
+                Toast.makeText(view.getContext(), "功能模块点击了" + data.text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

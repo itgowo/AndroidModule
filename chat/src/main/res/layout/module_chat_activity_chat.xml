@@ -67,10 +67,9 @@
                 android:text="@string/module_chat_pressandtalk"
                 android:visibility="gone" />
 
-            <ImageView
+            <Button
                 android:id="@+id/module_chat_emoji"
-                android:layout_width="35dp"
-
+                android:layout_width="40dp"
                 android:layout_height="35dp"
                 android:layout_marginRight="8dp" />
 
@@ -79,21 +78,29 @@
                 android:layout_width="50dp"
                 android:layout_height="35dp"
                 android:layout_marginRight="10dp"
-                android:textSize="14sp"
                 android:button="@null"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/module_chat_bottomLayout_grid"
             android:layout_width="match_parent"
             android:layout_height="400dp"
+            android:padding="3dp"
             android:visibility="gone">
 
-            <com.itgowo.module.chat.GridPageView
-                android:id="@+id/module_chat_bottomLayout_gridview"
+            <com.itgowo.module.view.gridpagerview.GridPagerView
+                android:id="@+id/module_chat_bottomLayout_gridview1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></com.itgowo.module.chat.GridPageView>
+                android:visibility="gone"
+                android:layout_height="match_parent" />
+
+            <com.itgowo.module.view.gridpagerview.GridPagerView
+                android:id="@+id/module_chat_bottomLayout_gridview2"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="match_parent" />
         </FrameLayout>
     </LinearLayout>
 </LinearLayout>

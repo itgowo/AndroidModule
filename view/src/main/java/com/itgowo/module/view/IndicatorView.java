@@ -1,4 +1,4 @@
-package com.itgowo.module.chat;
+package com.itgowo.module.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -112,9 +112,6 @@ public class IndicatorView extends View {
             centerx = center - length / 2 + radius * (i * 3 + 1);
             cxs[i] = new Rect(centerx - radius, 0, centerx + radius, radius * 2);
         }
-        int height=radius*2;
-
-
     }
 
     public interface OnClickListener {

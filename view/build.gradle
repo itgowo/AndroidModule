@@ -3,12 +3,14 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 27
 
-    resourcePrefix "module_chat_"
+
+    resourcePrefix "module_view_"
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+
     }
 
     buildTypes {
@@ -21,9 +23,8 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:gridlayout-v7:27.1.1'
-    api project(':view')
 }

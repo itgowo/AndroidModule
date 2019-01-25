@@ -21,6 +21,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.itgowo.module.view.gridpagerview.GridPagerView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,15 +41,15 @@ public class ChatActivity extends AppCompatActivity {
     private ChatResource resource;
     private LinearLayout moduleChatBottomLayout, moduleChatBottomLayoutFirstline;
     private ImageView moduleChatInputTypeSwitch;
-    private ImageView moduleChatEmoji;
-    private Button moduleChatOther;
+    private Button moduleChatEmojiBtn;
+    private Button moduleChatOtherBtn;
     private EditText moduleChatInputEt;
-    private Button moduleChatVoiceBtn;
+    private View moduleChatVoiceBtn;
     private FrameLayout moduleChatBottomLayoutGrid;
     private KeyboardLayout keyboardLayout;
     private int keyboardHeight;
     private boolean isFirst = true;
-    private GridPageView moduleChatBottomLayoutGridview;
+    private GridPagerView moduleChatBottomLayoutGridview2, moduleChatBottomLayoutGridview1;
     private ViewGroup rootLayout;
 
 
@@ -66,7 +68,7 @@ public class ChatActivity extends AppCompatActivity {
         viewListener.onCreateActivity(this, resource);
         setContentView(R.layout.module_chat_activity_chat);
         rootLayout = findViewById(R.id.module_chat_rootlayout);
-        rootLayout.setBackgroundResource(resource.getResourceBG());
+        rootLayout.setBackgroundResource(resource.getBgActivity());
         toolbar = findViewById(R.id.module_chat_toolbar);
         viewListener.onCreateToolbar(this, toolbar);
         setSupportActionBar(toolbar);
@@ -84,6 +86,7 @@ public class ChatActivity extends AppCompatActivity {
     private void showSoftKeyboard(View view) {
         InputMethodManager im = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (im != null) {
+            view.requestFocus();
             im.showSoftInput(view, 0);
         }
     }
@@ -93,13 +96,14 @@ public class ChatActivity extends AppCompatActivity {
         moduleChatBottomLayout = (LinearLayout) findViewById(R.id.module_chat_bottomLayout);
         moduleChatBottomLayoutFirstline = (LinearLayout) findViewById(R.id.module_chat_bottomLayout_firstline);
         moduleChatInputTypeSwitch = (ImageView) findViewById(R.id.module_chat_input_type_switch);
-        moduleChatEmoji = (ImageView) findViewById(R.id.module_chat_emoji);
-        moduleChatOther = findViewById(R.id.module_chat_other);
+        moduleChatEmojiBtn = findViewById(R.id.module_chat_emoji);
+        moduleChatOtherBtn = findViewById(R.id.module_chat_other);
         moduleChatVoiceBtn = findViewById(R.id.module_chat_voice_btn);
         moduleChatBottomLayoutGrid = findViewById(R.id.module_chat_bottomLayout_grid);
         recyclerView = findViewById(R.id.module_chat_recyclerView);
         swipeRefreshLayout = findViewById(R.id.module_chat_swipeRefreshLayout);
-        moduleChatBottomLayoutGridview = findViewById(R.id.module_chat_bottomLayout_gridview);
+        moduleChatBottomLayoutGridview2 = findViewById(R.id.module_chat_bottomLayout_gridview2);
+        moduleChatBottomLayoutGridview1 = findViewById(R.id.module_chat_bottomLayout_gridview1);
         keyboard();
 
         initResoure();
@@ -109,11 +113,9 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BaseAdapter(listItems, viewActionType, this);
         recyclerView.setAdapter(adapter);
-        messenger = new Messenger(listItems, swipeRefreshLayout, this, adapter, moduleChatBottomLayoutGridview);
-        viewListener.onBind(messenger,recyclerView);
+        messenger = new Messenger(listItems, swipeRefreshLayout, this, adapter, moduleChatBottomLayoutGridview1, moduleChatBottomLayoutGridview2, viewListener);
+        viewListener.onBind(messenger, recyclerView);
 
-        moduleChatBottomLayoutGridview.init(viewListener);
-        viewListener.getGridItemList(messenger);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -129,7 +131,7 @@ public class ChatActivity extends AppCompatActivity {
                 keyboardLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() { // 输入法弹出之后，重新调整
-                        moduleChatOther.setSelected(false);
+                        moduleChatOtherBtn.setSelected(false);
                         moduleChatBottomLayoutGrid.setVisibility(View.GONE);
                         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     }
@@ -150,82 +152,127 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (moduleChatInputEt.getText().toString().trim().equals("")) {
-                    moduleChatOther.setBackgroundResource(resource.getResourceIcon_OtherButtion());
-                    moduleChatOther.setText("");
+                    moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButtion());
+                    moduleChatOtherBtn.setText("");
                 } else {
-                    moduleChatOther.setBackgroundResource(resource.getResourceIcon_SendButtion());
-                    moduleChatOther.setText(resource.getResourceText_SendBtn());
+                    moduleChatOtherBtn.setBackgroundResource(resource.getIconSendButtion());
+                    moduleChatOtherBtn.setText(resource.getTextSendBtn());
                 }
             }
         });
-        moduleChatOther.setOnClickListener(new View.OnClickListener() {
+        moduleChatOtherBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (moduleChatInputEt.getText().toString().trim().equals("")) {
-                    moduleChatOther.setSelected(!moduleChatOther.isSelected());
-                    if (keyboardLayout.isKeyboardActive()) { // 输入法打开状态下
-                        if (moduleChatOther.isSelected()) { // 打开表情
-                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING); //  不改变布局，隐藏键盘，emojiView弹出
-                            hideSoftKeyboard(v);
-                            moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
-                        } else {
-                            moduleChatBottomLayoutGrid.setVisibility(View.GONE);
-                            hideSoftKeyboard(v);
-                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                        }
-                    } else { //  输入法关闭状态下
-                        if (moduleChatOther.isSelected()) {
-                            // 设置为不会调整大小，以便输入弹起时布局不会改变。若不设置此属性，输入法弹起时布局会闪一下
-                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
-                            moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
-                        } else {
-                            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-                            moduleChatBottomLayoutGrid.setVisibility(View.GONE);
-                        }
-                    }
-                } else {
-                    viewListener.onSendButtonClick(moduleChatInputEt, moduleChatInputEt.getText().toString().trim());
-                    moduleChatInputEt.setText("");
-                }
+                switchBottomLayout(v, false);
             }
         });
-
-        keyboardLayout.setKeyboardListener(new KeyboardLayout.KeyboardLayoutListener() {
+        moduleChatEmojiBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onKeyboardStateChanged(boolean isActive, int keyboardHeight1) {
-
-                if (isActive) { // 输入法打开
-                    if (keyboardHeight != keyboardHeight1) { // 键盘发生改变时才设置emojiView的高度，因为会触发onGlobalLayoutChanged，导致onKeyboardStateChanged再次被调用
-                        keyboardHeight = keyboardHeight1;
-                        initEmojiView(); // 每次输入法弹起时，设置emojiView的高度为键盘的高度，以便下次emojiView弹出时刚好等于键盘高度
-                    }
-                    if (moduleChatOther.isSelected()) { // 表情打开状态下
-                        moduleChatBottomLayoutGrid.setVisibility(View.GONE);
-                        moduleChatOther.setSelected(false);
-                    }
-                }
+            public void onClick(View v) {
+                switchBottomLayout(v, true);
             }
         });
+
     }
 
+    private void switchBottomLayout(View v, boolean isEmoji) {
+        if (moduleChatInputEt.getText().toString().trim().equals("")) {
+
+            if (keyboardLayout.isKeyboardActive()) { // 输入法打开状态下
+                if (isEmoji) {
+                    moduleChatEmojiBtn.setSelected(true);
+                    moduleChatOtherBtn.setSelected(false);
+                    moduleChatBottomLayoutGridview1.setVisibility(View.VISIBLE);
+                    moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
+                } else {
+                    moduleChatEmojiBtn.setSelected(false);
+                    moduleChatOtherBtn.setSelected(true);
+                    moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
+                    moduleChatBottomLayoutGridview2.setVisibility(View.VISIBLE);
+                }
+                if (moduleChatOtherBtn.isSelected() || moduleChatEmojiBtn.isSelected()) { // 打开表情
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING); //  不改变布局，隐藏键盘，emojiView弹出
+                    hideSoftKeyboard(v);
+                    moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
+                } else {
+                    moduleChatBottomLayoutGrid.setVisibility(View.GONE);
+                    hideSoftKeyboard(v);
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                }
+            } else { //  输入法关闭状态下
+                if (isEmoji) {
+                    if (moduleChatEmojiBtn.isSelected()) {
+                        moduleChatEmojiBtn.setSelected(false);
+                        moduleChatOtherBtn.setSelected(false);
+                        moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
+                        moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        moduleChatBottomLayoutGrid.setVisibility(View.GONE);
+                    } else {
+                        moduleChatEmojiBtn.setSelected(true);
+                        moduleChatOtherBtn.setSelected(false);
+                        moduleChatBottomLayoutGridview1.setVisibility(View.VISIBLE);
+                        moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+                        moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    if (moduleChatOtherBtn.isSelected()) {
+                        moduleChatEmojiBtn.setSelected(false);
+                        moduleChatOtherBtn.setSelected(false);
+                        moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
+                        moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        moduleChatBottomLayoutGrid.setVisibility(View.GONE);
+                    } else {
+                        moduleChatEmojiBtn.setSelected(false);
+                        moduleChatOtherBtn.setSelected(true);
+                        moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
+                        moduleChatBottomLayoutGridview2.setVisibility(View.VISIBLE);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+                        moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        } else {
+            viewListener.onSendButtonClick(moduleChatInputEt, moduleChatInputEt.getText().toString().trim());
+            moduleChatInputEt.setText("");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (messenger != null) {
+            messenger.finish();
+        }
+        super.onDestroy();
+    }
 
     // 设置表情栏的高度
-    private void initEmojiView() {
+    private void initBottomLayout() {
         ViewGroup.LayoutParams layoutParams = moduleChatBottomLayoutGrid.getLayoutParams();
         layoutParams.height = keyboardHeight;
         moduleChatBottomLayoutGrid.setLayoutParams(layoutParams);
     }
 
     private void keyboard() {
+        keyboardHeight = getInputKeyboardHeight();
+        initBottomLayout();
         keyboardLayout = new KeyboardLayout(this);
         keyboardLayout.setKeyboardListener(new KeyboardLayout.KeyboardLayoutListener() {
             @Override
             public void onKeyboardStateChanged(boolean isActive, int keyboardHeight1) {
-                System.out.println(isActive + "  " + keyboardHeight1);
-                if (isActive && moduleChatBottomLayoutGrid.getHeight() != keyboardLayout.getKeyboardHeight() && keyboardHeight1 > 0 && keyboardHeight == 0) {
-                    System.out.println("ChatActivity.onKeyboardStateChanged  " + keyboardHeight1);
-                    keyboardHeight = keyboardHeight1;
-                    moduleChatBottomLayoutGrid.getLayoutParams().height = keyboardHeight1;
+
+                if (isActive) { // 输入法打开
+                    if (keyboardHeight != keyboardHeight1 && keyboardHeight1 > 0) { // 键盘发生改变时才设置emojiView的高度，因为会触发onGlobalLayoutChanged，导致onKeyboardStateChanged再次被调用
+                        keyboardHeight = keyboardHeight1;
+                        saveInputKeyboardHeight(keyboardHeight1);
+                        initBottomLayout(); // 每次输入法弹起时，设置emojiView的高度为键盘的高度，以便下次emojiView弹出时刚好等于键盘高度
+                    }
+                    if (moduleChatOtherBtn.isSelected()) { // 表情打开状态下
+                        moduleChatBottomLayoutGrid.setVisibility(View.GONE);
+                        moduleChatOtherBtn.setSelected(false);
+                    }
                 }
             }
         });
@@ -233,32 +280,37 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void initResoure() {
-        if (resource.getResourceBG_FirstLine() != 0) {
-            moduleChatBottomLayoutFirstline.setBackgroundResource(resource.getResourceBG_FirstLine());
+        if (resource.getBgFirstLine() != 0) {
+            moduleChatBottomLayoutFirstline.setBackgroundResource(resource.getBgFirstLine());
         }
-        if (resource.getResourceIcon_EmojiButtion() != 0) {
-            moduleChatEmoji.setVisibility(View.VISIBLE);
-            moduleChatEmoji.setImageResource(resource.getResourceIcon_EmojiButtion());
+        if (resource.getIconEmojiButtion() != 0) {
+            moduleChatEmojiBtn.setVisibility(View.VISIBLE);
+            moduleChatEmojiBtn.setBackgroundResource(resource.getIconEmojiButtion());
         } else {
-            moduleChatEmoji.setVisibility(View.GONE);
+            moduleChatEmojiBtn.setVisibility(View.GONE);
+            moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
         }
 
-        if (resource.getResourceIcon_InputTypeButtion_Keyboard1() != 0) {
+        if (resource.getIconInputTypeButtionKeyboard1() != 0) {
             moduleChatInputTypeSwitch.setVisibility(View.VISIBLE);
-            moduleChatInputTypeSwitch.setImageResource(resource.getResourceIcon_InputTypeButtion_Keyboard1());
+            moduleChatInputTypeSwitch.setImageResource(resource.getIconInputTypeButtionVoice());
             moduleChatInputTypeSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (moduleChatInputTypeSwitch.getTag() == null) {
                         moduleChatInputTypeSwitch.setTag("");
-                        moduleChatInputTypeSwitch.setImageResource(resource.getResourceIcon_InputTypeButtion_Keyboard1());
+                        moduleChatInputTypeSwitch.setImageResource(resource.getIconInputTypeButtionKeyboard1());
                         moduleChatInputEt.setVisibility(View.GONE);
                         moduleChatVoiceBtn.setVisibility(View.VISIBLE);
+                        hideSoftKeyboard(v);
+                        moduleChatBottomLayoutGrid.setVisibility(View.GONE);
                     } else {
                         moduleChatInputTypeSwitch.setTag(null);
-                        moduleChatInputTypeSwitch.setImageResource(resource.getResourceIcon_InputTypeButtion_Voice());
+                        moduleChatInputTypeSwitch.setImageResource(resource.getIconInputTypeButtionVoice());
                         moduleChatInputEt.setVisibility(View.VISIBLE);
                         moduleChatVoiceBtn.setVisibility(View.GONE);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        showSoftKeyboard(moduleChatInputEt);
                     }
                 }
             });
@@ -267,22 +319,34 @@ public class ChatActivity extends AppCompatActivity {
         }
 
 
-        if (resource.getResourceIcon_OtherButtion() != 0) {
-            moduleChatOther.setVisibility(View.VISIBLE);
-            moduleChatOther.setBackgroundResource(resource.getResourceIcon_OtherButtion());
+        if (resource.getIconOtherButtion() != 0) {
+            moduleChatOtherBtn.setVisibility(View.VISIBLE);
+            moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButtion());
         } else {
-            moduleChatOther.setVisibility(View.GONE);
+            moduleChatOtherBtn.setVisibility(View.GONE);
+            moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
         }
 
-        if (resource.getResourceBG_InputET() != 0) {
-            moduleChatInputEt.setBackgroundResource(resource.getResourceBG_InputET());
+        if (resource.getBgInputET() != 0) {
+            moduleChatInputEt.setBackgroundResource(resource.getBgInputET());
         }
-        if (resource.getResourceText_VoiceBtn() != 0) {
-            moduleChatVoiceBtn.setText(resource.getResourceText_VoiceBtn());
+
+        if (resource.getViewVoiceBtn() != null) {
+            LinearLayout linearLayout = (LinearLayout) moduleChatVoiceBtn.getParent();
+            int index = linearLayout.indexOfChild(moduleChatVoiceBtn);
+            resource.getViewVoiceBtn().setLayoutParams(moduleChatVoiceBtn.getLayoutParams());
+            linearLayout.removeViewAt(index);
+            linearLayout.addView(resource.getViewVoiceBtn(), index);
+            moduleChatVoiceBtn = resource.getViewVoiceBtn();
+        } else {
+            if (resource.getBgVoiceBtn() != 0) {
+                moduleChatVoiceBtn.setBackgroundResource(resource.getBgVoiceBtn());
+            }
+            if (resource.getTextVoiceBtn() != 0) {
+                ((Button) moduleChatVoiceBtn).setText(resource.getTextVoiceBtn());
+            }
         }
-        if (resource.getResourceBG_VoiceBtn() != 0) {
-            moduleChatVoiceBtn.setBackgroundResource(resource.getResourceBG_VoiceBtn());
-        }
+        moduleChatVoiceBtn.setVisibility(View.GONE);
     }
 
     @Override
@@ -290,4 +354,11 @@ public class ChatActivity extends AppCompatActivity {
         return viewListener.onCreateOptionsMenu(this, toolbar, menu);
     }
 
+    public void saveInputKeyboardHeight(int keyboardHeight) {
+        getSharedPreferences("AndroidModule", Context.MODE_PRIVATE).edit().putInt("InputKeyboardHeight", keyboardHeight).apply();
+    }
+
+    public int getInputKeyboardHeight() {
+        return getSharedPreferences("AndroidModule", Context.MODE_PRIVATE).getInt("InputKeyboardHeight", 400);
+    }
 }

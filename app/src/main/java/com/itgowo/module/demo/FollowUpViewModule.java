@@ -21,11 +21,4 @@ public class FollowUpViewModule extends ViewModule {
     public void getMoreHistory(Messenger messenger) {
         messenger.setData(new ArrayList<ItemData>());
     }
-
-    @Override
-    public View getGridItemView(int position) {
-        TextView textView=new TextView(context);
-        textView.setText("aaaaa"+position);
-        return textView;
-    }
 }

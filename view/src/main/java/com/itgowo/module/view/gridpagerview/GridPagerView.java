@@ -1,4 +1,4 @@
-package com.itgowo.module.chat;
+package com.itgowo.module.view.gridpagerview;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,51 +8,82 @@ import android.support.v7.widget.GridLayout;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.itgowo.module.view.IndicatorView;
+import com.itgowo.module.view.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class GridPageView extends RelativeLayout {
-    private ViewPager moduleChatGridpageViewpage;
-    private IndicatorView moduleChatGridpageIndicator;
+public class GridPagerView extends RelativeLayout {
+    private ViewPager moduleViewGridpageViewpager;
+    private IndicatorView moduleViewGridpageIndicator;
 
-    private onViewModuleListener listener;
+    private onGridPageViewListener onGridPageViewListener;
 
     private int columnMax = 4;
     private int rowMax = 2;
 
-    public void init(onViewModuleListener listener) {
-        this.listener = listener;
-        moduleChatGridpageViewpage = (ViewPager) findViewById(R.id.module_chat_gridpage_viewpage);
-        moduleChatGridpageIndicator = (IndicatorView) findViewById(R.id.module_chat_gridpage_indicator);
+    public GridPagerView.onGridPageViewListener getOnGridPageViewListener() {
+        return onGridPageViewListener;
     }
 
-    public GridPageView(Context context) {
+    public GridPagerView setOnGridPageViewListener(GridPagerView.onGridPageViewListener onGridPageViewListener) {
+        this.onGridPageViewListener = onGridPageViewListener;
+        return this;
+    }
+
+    public GridPagerView(Context context) {
         super(context);
-        View.inflate(context, R.layout.module_chat_gridpageview, this);
+        setView();
     }
 
-    public GridPageView(Context context, AttributeSet attrs) {
+    public GridPagerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        View.inflate(context, R.layout.module_chat_gridpageview, this);
+        setView();
     }
 
+    /**
+     * 代码初始化viewPager和indicatorView
+     */
+    private void setView() {
+        removeAllViews();
+        moduleViewGridpageViewpager = new ViewPager(getContext());
+        moduleViewGridpageIndicator = new IndicatorView(getContext());
+        moduleViewGridpageIndicator.setId(R.id.module_view_indicatorView);
+        moduleViewGridpageViewpager.setId(R.id.module_view_GridPagerView);
+        RelativeLayout.LayoutParams rl1 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        rl1.addRule(RelativeLayout.ABOVE, R.id.module_view_indicatorView);
+        moduleViewGridpageViewpager.setLayoutParams(rl1);
+        RelativeLayout.LayoutParams rl2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.module_view_GridPagerView_indicatorViewHeight));
+        rl2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, TRUE);
+        rl2.bottomMargin = getResources().getDimensionPixelSize(R.dimen.module_view_GridPagerView_indicatorViewBottomMargin);
+        moduleViewGridpageIndicator.setLayoutParams(rl2);
+        moduleViewGridpageIndicator.setPadding(0, getResources().getDimensionPixelSize(R.dimen.module_view_GridPagerView_indicatorViewPaddingTop), 0, 0);
+        addView(moduleViewGridpageViewpager);
+        addView(moduleViewGridpageIndicator);
+    }
+
+    public void init(int rowMax, int columnMax, onGridPageViewListener listener) {
+        this.rowMax = rowMax;
+        this.columnMax = columnMax;
+        this.onGridPageViewListener = listener;
+    }
 
     public void setData(final List<GridItemData> itemDataList) {
         List<View> viewList = new ArrayList<>();
         List<GridItemView> itemViews = new ArrayList<>();
         for (int i = 0; i < itemDataList.size(); i++) {
-            final GridItemView gridItemView = new GridItemView(itemDataList.get(i), listener.getGridItemView(i), getContext());
+            final GridItemView gridItemView = new GridItemView(itemDataList.get(i), onGridPageViewListener.getGridItemView(i), getContext());
             itemViews.add(gridItemView);
             final int finalI = i;
             gridItemView.itemView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onClickGridItem(gridItemView.itemView, finalI, gridItemView, itemDataList.get(finalI));
+                    onGridPageViewListener.onClickGridItem(gridItemView.itemView, finalI, gridItemView, itemDataList.get(finalI));
                 }
             });
         }
@@ -65,11 +96,11 @@ public class GridPageView extends RelativeLayout {
             viewList.add(getGridLayout(itemViews, 0, rowMax, columnMax));
         }
         if (viewList.size() > 1) {
-            moduleChatGridpageIndicator.init(9, viewList.size());
+            moduleViewGridpageIndicator.init(12, viewList.size());
 
         }
-        moduleChatGridpageViewpage.setAdapter(new PageAdapter(viewList));
-        moduleChatGridpageViewpage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        moduleViewGridpageViewpager.setAdapter(new PageAdapter(viewList));
+        moduleViewGridpageViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
 
@@ -77,7 +108,7 @@ public class GridPageView extends RelativeLayout {
 
             @Override
             public void onPageSelected(int i) {
-                moduleChatGridpageIndicator.setPosition(i);
+                moduleViewGridpageIndicator.setPosition(i);
             }
 
             @Override
@@ -198,19 +229,45 @@ public class GridPageView extends RelativeLayout {
         public GridItemView(GridItemData data, View itemView, Context context) {
             this.data = data;
             if (itemView == null) {
-                this.itemView = View.inflate(context, R.layout.module_chat_gridpageview_item, null);
-                this.imageButton = this.itemView.findViewById(R.id.module_chat_gridpage_item_image);
-                this.textView = this.itemView.findViewById(R.id.module_chat_gridpage_item_text);
+                this.itemView = new DefaultGridItemView(context);
+                this.imageButton = ((DefaultGridItemView) this.itemView).imageButton;
+                this.textView = ((DefaultGridItemView) this.itemView).textView;
                 this.textView.setText(data.text);
                 if (data.image != 0) {
                     this.imageButton.setImageResource(data.image);
                 } else {
-                    listener.onBindGridItemView(this);
+                    onGridPageViewListener.onBindGridItemView(this);
                 }
             } else {
                 this.itemView = itemView;
             }
         }
+    }
 
+    public interface onGridPageViewListener {
+        /**
+         * 如果getGridItemView返回View，则此方法不需要实现，否则必须实现
+         *
+         * @param itemView
+         */
+        public void onBindGridItemView(GridPagerView.GridItemView itemView);
+
+        /**
+         * 返回扩展功能自定义View，如果为Null使用默认布局
+         *
+         * @param position
+         * @return
+         */
+        public View getGridItemView(int position);
+
+        /**
+         * 功能区Item点击事件
+         *
+         * @param view
+         * @param position
+         * @param gridItemView
+         * @param data
+         */
+        public void onClickGridItem(View view, int position, GridPagerView.GridItemView gridItemView, GridPagerView.GridItemData data);
     }
 }
