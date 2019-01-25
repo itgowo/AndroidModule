@@ -62,7 +62,7 @@ public class Messenger<ItemType> {
             if (this.dataList.get() == null || adapter.get() == null) {
                 return;
             }
-            this.dataList.get().addAll(dataList);
+            this.dataList.get().addAll(0, dataList);
             adapter.get().notifyDataSetChanged();
         }
         if (swipeRefreshLayout.get() != null) {

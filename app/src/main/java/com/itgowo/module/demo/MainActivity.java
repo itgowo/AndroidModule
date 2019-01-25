@@ -1,16 +1,11 @@
 package com.itgowo.module.demo;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.itgowo.module.chat.ChatActivity;
-import com.itgowo.module.chat.ItemData;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.itgowo.module.demo.viewModule.FollowUpViewModule;
 
 public class MainActivity extends AppCompatActivity {
 

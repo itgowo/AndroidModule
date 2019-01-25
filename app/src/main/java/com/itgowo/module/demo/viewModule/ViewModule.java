@@ -1,4 +1,4 @@
-package com.itgowo.module.demo;
+package com.itgowo.module.demo.viewModule;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -19,6 +19,12 @@ import com.itgowo.module.chat.ItemData;
 import com.itgowo.module.chat.Messenger;
 import com.itgowo.module.chat.ViewAction;
 import com.itgowo.module.chat.onViewModuleListener;
+import com.itgowo.module.demo.MsgEntity;
+import com.itgowo.module.demo.R;
+import com.itgowo.module.demo.viewAction.ImageViewAction;
+import com.itgowo.module.demo.viewAction.ImageViewAction2;
+import com.itgowo.module.demo.viewAction.TextViewAction;
+import com.itgowo.module.demo.viewAction.TextViewAction2;
 import com.itgowo.module.view.gridpagerview.GridPagerView;
 
 import java.util.ArrayList;
@@ -99,7 +105,7 @@ public class ViewModule implements onViewModuleListener {
         map.put(1, new TextViewAction());
         map.put(2, new TextViewAction2());
         map.put(3, new ImageViewAction());
-        map.put(4, new TextViewAction2());
+        map.put(4, new ImageViewAction2());
         return map;
     }
 
