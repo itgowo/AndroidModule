@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
@@ -16,6 +17,12 @@ public class KeyboardLayout extends FrameLayout {
     private KeyboardLayoutListener mListener;
     private boolean mIsKeyboardActive = false; //　输入法是否激活
     private int mKeyboardHeight = 0; // 输入法高度
+    private Window window;
+
+    public KeyboardLayout setWindow(Window window) {
+        this.window = window;
+        return this;
+    }
 
     public KeyboardLayout(Context context) {
         this(context, null, 0);
@@ -57,7 +64,6 @@ public class KeyboardLayout extends FrameLayout {
                 isActive = true; // 超过屏幕五分之一则表示弹出了输入法
                 mKeyboardHeight = keyboardHeight;
             }
-            mIsKeyboardActive = isActive;
             if (mListener != null) {
                 mListener.onKeyboardStateChanged(isActive, keyboardHeight);
             }
@@ -74,6 +80,11 @@ public class KeyboardLayout extends FrameLayout {
 
     public boolean isKeyboardActive() {
         return mIsKeyboardActive;
+    }
+
+    public KeyboardLayout setmIsKeyboardActive(boolean mIsKeyboardActive) {
+        this.mIsKeyboardActive = mIsKeyboardActive;
+        return this;
     }
 
     /**
