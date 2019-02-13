@@ -321,8 +321,8 @@ public class ChatActivity extends AppCompatActivity implements KeyboardHeightObs
                 moduleChatOtherBtn.setSelected(true);
                 moduleChatBottomLayoutGridview2.setVisibility(View.VISIBLE);
                 softInputModeNothing(); //  不改变布局，隐藏键盘，emojiView弹出
-                moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
                 hideSoftKeyboard(v);
+                moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
             } else { //  输入法关闭状态下
                 if (moduleChatOtherBtn.isSelected()) {
                     moduleChatOtherBtn.setSelected(false);
@@ -467,17 +467,10 @@ public class ChatActivity extends AppCompatActivity implements KeyboardHeightObs
 
     @Override
     public void onKeyboardHeightChanged(int height, int orientation) {
-        System.out.println("height = [" + height + "], orientation = [" + orientation + "]");
-
-            if (keyboardHeight != height && height > 0) { // 键盘发生改变时才设置emojiView的高度，因为会触发onGlobalLayoutChanged，导致onKeyboardStateChanged再次被调用
-                keyboardHeight = height;
-                saveInputKeyboardHeight(height);
-                initBottomLayout(); // 每次输入法弹起时，设置emojiView的高度为键盘的高度，以便下次emojiView弹出时刚好等于键盘高度
-            }
-            if (moduleChatOtherBtn.isSelected()) { // 表情打开状态下
-                moduleChatBottomLayoutGrid.setVisibility(View.GONE);
-                moduleChatOtherBtn.setSelected(false);
-            }
-
+        if (keyboardHeight != height && height > 0) { // 键盘发生改变时才设置emojiView的高度，因为会触发onGlobalLayoutChanged，导致onKeyboardStateChanged再次被调用
+            keyboardHeight = height;
+            saveInputKeyboardHeight(height);
+            initBottomLayout(); // 每次输入法弹起时，设置emojiView的高度为键盘的高度，以便下次emojiView弹出时刚好等于键盘高度
+        }
     }
 }
