@@ -65,6 +65,12 @@ public class GridPagerView extends RelativeLayout {
         moduleViewGridpageIndicator.setPadding(0, getResources().getDimensionPixelSize(R.dimen.module_view_GridPagerView_indicatorViewPaddingTop), 0, 0);
         addView(moduleViewGridpageViewpager);
         addView(moduleViewGridpageIndicator);
+        moduleViewGridpageIndicator.setOnIndicatorClickListener(new IndicatorView.OnClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                moduleViewGridpageViewpager.setCurrentItem(position);
+            }
+        });
     }
 
     public void init(int rowMax, int columnMax, onGridPageViewListener listener) {

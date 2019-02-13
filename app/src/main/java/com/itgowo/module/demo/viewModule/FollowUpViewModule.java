@@ -23,7 +23,7 @@ public class FollowUpViewModule extends ViewModule {
     public void getMoreHistory(Messenger messenger) {
         List<ItemData<MsgEntity>> dataList = new ArrayList<>();
         ItemData<MsgEntity> itemData = new ItemData<>();
-        itemData.setData(new MsgEntity().setName("大王").setContent("今天天气真好啊。" + size).setTimeLine("2019年1月1日").setUserid(10086)).setType(1);
+        itemData.setData(new MsgEntity().setName("大王").setContent("今天天气真好啊今天天气真好啊今天天气真好啊今天天气真好啊今天天气真好啊今天天气真好啊。" + size).setTimeLine("2019年1月1日").setUserid(10086)).setType(1);
         dataList.add(itemData);
         size++;
         ItemData<MsgEntity> itemData1 = new ItemData<>();

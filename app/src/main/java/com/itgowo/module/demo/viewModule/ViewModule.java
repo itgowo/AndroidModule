@@ -47,7 +47,7 @@ public class ViewModule implements onViewModuleListener {
         resource.setIconInputTypeButtionKeyboard1(R.drawable.followup_chat_keyboard1);
         resource.setIconInputTypeButtionKeyboard2(R.drawable.followup_chat_keyboard2);
         resource.setIconInputTypeButtionVoice(R.drawable.followup_chat_voice);
-        resource.setIconOtherButtion(R.drawable.otherbtn);
+//        resource.setIconOtherButtion(R.drawable.otherbtn);
         resource.setIconEmojiButtion(R.drawable.otherbtn);
         resource.setIconSendButtion(R.drawable.send_btn_bg);
         resource.setTextSendBtn(R.string.module_chat_sendBtn);
