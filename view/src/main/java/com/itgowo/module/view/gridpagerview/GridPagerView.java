@@ -83,7 +83,7 @@ public class GridPagerView extends RelativeLayout {
         List<View> viewList = new ArrayList<>();
         List<GridItemView> itemViews = new ArrayList<>();
         for (int i = 0; i < itemDataList.size(); i++) {
-            final GridItemView gridItemView = new GridItemView(itemDataList.get(i), onGridPageViewListener.getGridItemView(i), getContext());
+            final GridItemView gridItemView = new GridItemView(itemDataList.get(i), onGridPageViewListener.getGridItemView(getContext(), i), getContext());
             itemViews.add(gridItemView);
             final int finalI = i;
             gridItemView.itemView.setOnClickListener(new OnClickListener() {
@@ -261,10 +261,11 @@ public class GridPagerView extends RelativeLayout {
         /**
          * 返回扩展功能自定义View，如果为Null使用默认布局
          *
+         * @param context
          * @param position
          * @return
          */
-        public View getGridItemView(int position);
+        public View getGridItemView(Context context, int position);
 
         /**
          * 功能区Item点击事件
