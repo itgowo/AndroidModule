@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,6 +59,14 @@ public class ViewModule implements onViewModuleListener {
         resource.setTextVoiceBtn(R.string.module_chat_pressandtalk);
         TextView textView = new TextView(activity);
         textView.setText("偷梁换柱");
+        textView.setGravity(Gravity.CENTER);
+        textView.setBackgroundColor(Color.GREEN);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "我是自定义录音button", Toast.LENGTH_SHORT).show();
+            }
+        });
         resource.setViewVoiceBtn(textView);
     }
 
@@ -131,7 +140,7 @@ public class ViewModule implements onViewModuleListener {
             }
 
             @Override
-            public View getGridItemView(int position) {
+            public View getGridItemView(Context context, int position) {
                 ImageView view = new ImageView(messenger.getContext());
                 view.setImageResource(R.drawable.dynamic_praise);
                 return view;
@@ -155,7 +164,7 @@ public class ViewModule implements onViewModuleListener {
             }
 
             @Override
-            public View getGridItemView(int position) {
+            public View getGridItemView(Context context, int position) {
                 return null;
             }
 

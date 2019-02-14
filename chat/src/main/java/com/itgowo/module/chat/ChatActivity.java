@@ -200,12 +200,17 @@ public class ChatActivity extends AppCompatActivity implements KeyboardHeightObs
 
 
     private void switchBottomLayout(View v, boolean isEmoji) {
-        if (visibleGridView1 && visibleGridView2) {
-            switchBottomLayoutBoth(v, isEmoji);
-        } else if (visibleGridView1) {
-            switchBottomLayoutWithoutOther(v);
+        if (!moduleChatInputEt.getText().toString().trim().equals("") && moduleChatInputEt.getVisibility() == View.VISIBLE) {
+            viewListener.onSendButtonClick(moduleChatInputEt, moduleChatInputEt.getText().toString().trim());
+            moduleChatInputEt.setText("");
         } else {
-            switchBottomLayoutWithoutEmoji(v);
+            if (visibleGridView1 && visibleGridView2) {
+                switchBottomLayoutBoth(v, isEmoji);
+            } else if (visibleGridView1) {
+                switchBottomLayoutWithoutOther(v);
+            } else {
+                switchBottomLayoutWithoutEmoji(v);
+            }
         }
     }
 
@@ -222,124 +227,109 @@ public class ChatActivity extends AppCompatActivity implements KeyboardHeightObs
     }
 
     private void switchBottomLayoutBoth(View v, boolean isEmoji) {
-        if (moduleChatInputEt.getText().toString().trim().equals("")) {
-            if (isShowKeyboard()) { // 输入法打开状态下
-                if (isEmoji) {
+        if (isShowKeyboard()) { // 输入法打开状态下
+            if (isEmoji) {
+                moduleChatEmojiBtn.setSelected(true);
+                moduleChatOtherBtn.setSelected(false);
+                moduleChatBottomLayoutGridview1.setVisibility(View.VISIBLE);
+                moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
+            } else {
+                moduleChatEmojiBtn.setSelected(false);
+                moduleChatOtherBtn.setSelected(true);
+                moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
+                moduleChatBottomLayoutGridview2.setVisibility(View.VISIBLE);
+            }
+            if (moduleChatOtherBtn.isSelected() || moduleChatEmojiBtn.isSelected()) { // 打开表情
+                hideSoftKeyboard(v);
+                softInputModeNothing(); //  不改变布局，隐藏键盘，emojiView弹出
+                moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
+            } else {
+                moduleChatBottomLayoutGrid.setVisibility(View.GONE);
+                softInputModeResize();
+                hideSoftKeyboard(v);
+            }
+        } else { //  输入法关闭状态下
+            if (isEmoji) {
+                if (moduleChatEmojiBtn.isSelected()) {
+                    moduleChatEmojiBtn.setSelected(false);
+                    moduleChatOtherBtn.setSelected(false);
+                    moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
+                    moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
+                    moduleChatBottomLayoutGrid.setVisibility(View.GONE);
+                    softInputModeResize();
+                } else {
                     moduleChatEmojiBtn.setSelected(true);
                     moduleChatOtherBtn.setSelected(false);
                     moduleChatBottomLayoutGridview1.setVisibility(View.VISIBLE);
                     moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
+                    moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
+                    softInputModeNothing();
+                }
+            } else {
+                if (moduleChatOtherBtn.isSelected()) {
+                    moduleChatEmojiBtn.setSelected(false);
+                    moduleChatOtherBtn.setSelected(false);
+                    moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
+                    moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
+                    moduleChatBottomLayoutGrid.setVisibility(View.GONE);
+                    softInputModeResize();
                 } else {
                     moduleChatEmojiBtn.setSelected(false);
                     moduleChatOtherBtn.setSelected(true);
                     moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
                     moduleChatBottomLayoutGridview2.setVisibility(View.VISIBLE);
-                }
-                if (moduleChatOtherBtn.isSelected() || moduleChatEmojiBtn.isSelected()) { // 打开表情
-                    hideSoftKeyboard(v);
-                    softInputModeNothing(); //  不改变布局，隐藏键盘，emojiView弹出
                     moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
-                } else {
-                    moduleChatBottomLayoutGrid.setVisibility(View.GONE);
-                    softInputModeResize();
-                    hideSoftKeyboard(v);
+                    softInputModeNothing();
                 }
-            } else { //  输入法关闭状态下
-                if (isEmoji) {
-                    if (moduleChatEmojiBtn.isSelected()) {
-                        moduleChatEmojiBtn.setSelected(false);
-                        moduleChatOtherBtn.setSelected(false);
-                        moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
-                        moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
-                        moduleChatBottomLayoutGrid.setVisibility(View.GONE);
-                        softInputModeResize();
-                    } else {
-                        moduleChatEmojiBtn.setSelected(true);
-                        moduleChatOtherBtn.setSelected(false);
-                        moduleChatBottomLayoutGridview1.setVisibility(View.VISIBLE);
-                        moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
-                        moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
-                        softInputModeNothing();
-                    }
-                } else {
-                    if (moduleChatOtherBtn.isSelected()) {
-                        moduleChatEmojiBtn.setSelected(false);
-                        moduleChatOtherBtn.setSelected(false);
-                        moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
-                        moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
-                        moduleChatBottomLayoutGrid.setVisibility(View.GONE);
-                        softInputModeResize();
-                    } else {
-                        moduleChatEmojiBtn.setSelected(false);
-                        moduleChatOtherBtn.setSelected(true);
-                        moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
-                        moduleChatBottomLayoutGridview2.setVisibility(View.VISIBLE);
-                        moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
-                        softInputModeNothing();
-                    }
-                }
-
             }
-        } else {
-            viewListener.onSendButtonClick(moduleChatInputEt, moduleChatInputEt.getText().toString().trim());
-            moduleChatInputEt.setText("");
+
         }
     }
 
     private void switchBottomLayoutWithoutOther(View v) {
-        if (moduleChatInputEt.getText().toString().trim().equals("")) {
-            if (isShowKeyboard()) { // 输入法打开状态下
+        if (isShowKeyboard()) { // 输入法打开状态下
+            moduleChatEmojiBtn.setSelected(true);
+            moduleChatBottomLayoutGridview1.setVisibility(View.VISIBLE);
+            softInputModeNothing(); //  不改变布局，隐藏键盘，emojiView弹出
+            hideSoftKeyboard(v);
+            moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
+        } else { //  输入法关闭状态下
+            if (moduleChatEmojiBtn.isSelected()) {
+                moduleChatEmojiBtn.setSelected(false);
+                moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
+                softInputModeResize();
+                moduleChatBottomLayoutGrid.setVisibility(View.GONE);
+            } else {
                 moduleChatEmojiBtn.setSelected(true);
                 moduleChatBottomLayoutGridview1.setVisibility(View.VISIBLE);
-                softInputModeNothing(); //  不改变布局，隐藏键盘，emojiView弹出
-                hideSoftKeyboard(v);
+                softInputModeNothing();
                 moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
-            } else { //  输入法关闭状态下
-                if (moduleChatEmojiBtn.isSelected()) {
-                    moduleChatEmojiBtn.setSelected(false);
-                    moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
-                    softInputModeResize();
-                    moduleChatBottomLayoutGrid.setVisibility(View.GONE);
-                } else {
-                    moduleChatEmojiBtn.setSelected(true);
-                    moduleChatBottomLayoutGridview1.setVisibility(View.VISIBLE);
-                    softInputModeNothing();
-                    moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
-                }
-
-                hideSoftKeyboard(v);
             }
-        } else {
-            viewListener.onSendButtonClick(moduleChatInputEt, moduleChatInputEt.getText().toString().trim());
-            moduleChatInputEt.setText("");
+
+            hideSoftKeyboard(v);
         }
     }
 
     private void switchBottomLayoutWithoutEmoji(View v) {
-        if (moduleChatInputEt.getText().toString().trim().equals("")) {
-            if (isShowKeyboard()) { // 输入法打开状态下
+        if (isShowKeyboard()) { // 输入法打开状态下
+            moduleChatOtherBtn.setSelected(true);
+            moduleChatBottomLayoutGridview2.setVisibility(View.VISIBLE);
+            softInputModeNothing(); //  不改变布局，隐藏键盘，emojiView弹出
+            hideSoftKeyboard(v);
+            moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
+        } else { //  输入法关闭状态下
+            if (moduleChatOtherBtn.isSelected()) {
+                moduleChatOtherBtn.setSelected(false);
+                moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
+                softInputModeResize();
+                moduleChatBottomLayoutGrid.setVisibility(View.GONE);
+            } else {
                 moduleChatOtherBtn.setSelected(true);
                 moduleChatBottomLayoutGridview2.setVisibility(View.VISIBLE);
-                softInputModeNothing(); //  不改变布局，隐藏键盘，emojiView弹出
-                hideSoftKeyboard(v);
+                softInputModeNothing();
                 moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
-            } else { //  输入法关闭状态下
-                if (moduleChatOtherBtn.isSelected()) {
-                    moduleChatOtherBtn.setSelected(false);
-                    moduleChatBottomLayoutGridview2.setVisibility(View.GONE);
-                    softInputModeResize();
-                    moduleChatBottomLayoutGrid.setVisibility(View.GONE);
-                } else {
-                    moduleChatOtherBtn.setSelected(true);
-                    moduleChatBottomLayoutGridview2.setVisibility(View.VISIBLE);
-                    softInputModeNothing();
-                    moduleChatBottomLayoutGrid.setVisibility(View.VISIBLE);
-                }
-                hideSoftKeyboard(v);
             }
-        } else {
-            viewListener.onSendButtonClick(moduleChatInputEt, moduleChatInputEt.getText().toString().trim());
-            moduleChatInputEt.setText("");
+            hideSoftKeyboard(v);
         }
     }
 
@@ -384,6 +374,13 @@ public class ChatActivity extends AppCompatActivity implements KeyboardHeightObs
                         moduleChatInputTypeSwitch.setBackgroundResource(resource.getIconInputTypeButtionVoice());
                         moduleChatInputEt.setVisibility(View.VISIBLE);
                         moduleChatVoiceBtn.setVisibility(View.GONE);
+                        if (moduleChatInputEt.getText().toString().trim().equals("")) {
+                            moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButtion());
+                            moduleChatOtherBtn.setText("");
+                        } else {
+                            moduleChatOtherBtn.setBackgroundResource(resource.getIconSendButtion());
+                            moduleChatOtherBtn.setText(resource.getTextSendBtn());
+                        }
                         if (moduleChatBottomLayoutGrid.getVisibility() == View.VISIBLE) {
                             softInputModeNothing();
                         } else {
@@ -398,6 +395,7 @@ public class ChatActivity extends AppCompatActivity implements KeyboardHeightObs
                         moduleChatVoiceBtn.setVisibility(View.VISIBLE);
                         moduleChatEmojiBtn.setSelected(false);
                         moduleChatOtherBtn.setSelected(false);
+                        moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButtion());
                         hideSoftKeyboard(v);
                         moduleChatBottomLayoutGrid.setVisibility(View.GONE);
 
