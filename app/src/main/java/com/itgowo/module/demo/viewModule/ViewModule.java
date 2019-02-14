@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.itgowo.module.chat.ChatResource;
 import com.itgowo.module.chat.ItemData;
 import com.itgowo.module.chat.Messenger;
@@ -43,14 +42,14 @@ public class ViewModule implements onViewModuleListener {
 
     @Override
     public void onCreateActivity(AppCompatActivity activity, ChatResource resource) {
-//            resource.setIconEmojiButtion(R.drawable.ic_launcher);
+//            resource.setIconEmojiButton(R.drawable.ic_launcher);
         this.context = activity;
-        resource.setIconInputTypeButtionKeyboard1(R.drawable.followup_chat_keyboard1);
-        resource.setIconInputTypeButtionKeyboard2(R.drawable.followup_chat_keyboard2);
-        resource.setIconInputTypeButtionVoice(R.drawable.followup_chat_voice);
-        resource.setIconOtherButtion(R.drawable.otherbtn);
-//        resource.setIconEmojiButtion(R.drawable.otherbtn);
-        resource.setIconSendButtion(R.drawable.send_btn_bg);
+        resource.setIconInputTypeButtonKeyboard1(R.drawable.followup_chat_keyboard1);
+        resource.setIconInputTypeButtonKeyboard2(R.drawable.followup_chat_keyboard2);
+        resource.setIconInputTypeButtonVoice(R.drawable.followup_chat_voice);
+        resource.setIconOtherButton(R.drawable.otherbtn);
+//        resource.setIconEmojiButton(R.drawable.otherbtn);
+        resource.setIconSendButton(R.drawable.send_btn_bg);
         resource.setTextSendBtn(R.string.module_chat_sendBtn);
         resource.setBgFirstLine(R.drawable.bg);
         resource.setBgInputET(R.drawable.input_bg);

@@ -153,10 +153,10 @@ public class ChatActivity extends AppCompatActivity implements KeyboardHeightObs
             @Override
             public void afterTextChanged(Editable s) {
                 if (moduleChatInputEt.getText().toString().trim().equals("")) {
-                    moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButtion());
+                    moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButton());
                     moduleChatOtherBtn.setText("");
                 } else {
-                    moduleChatOtherBtn.setBackgroundResource(resource.getIconSendButtion());
+                    moduleChatOtherBtn.setBackgroundResource(resource.getIconSendButton());
                     moduleChatOtherBtn.setText(resource.getTextSendBtn());
                 }
             }
@@ -354,31 +354,31 @@ public class ChatActivity extends AppCompatActivity implements KeyboardHeightObs
         if (resource.getBgFirstLine() != 0) {
             moduleChatBottomLayoutFirstline.setBackgroundResource(resource.getBgFirstLine());
         }
-        if (resource.getIconEmojiButtion() != 0) {
+        if (resource.getIconEmojiButton() != 0) {
             moduleChatEmojiBtn.setVisibility(View.VISIBLE);
-            moduleChatEmojiBtn.setBackgroundResource(resource.getIconEmojiButtion());
+            moduleChatEmojiBtn.setBackgroundResource(resource.getIconEmojiButton());
             visibleGridView1 = true;
         } else {
             moduleChatEmojiBtn.setVisibility(View.GONE);
             moduleChatBottomLayoutGridview1.setVisibility(View.GONE);
         }
 
-        if (resource.getIconInputTypeButtionKeyboard1() != 0) {
+        if (resource.getIconInputTypeButtonKeyboard1() != 0) {
             moduleChatInputTypeSwitch.setVisibility(View.VISIBLE);
-            moduleChatInputTypeSwitch.setBackgroundResource(resource.getIconInputTypeButtionVoice());
+            moduleChatInputTypeSwitch.setBackgroundResource(resource.getIconInputTypeButtonVoice());
             moduleChatInputTypeSwitch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (moduleChatInputTypeSwitch.isSelected()) {
                         moduleChatInputTypeSwitch.setSelected(false);
-                        moduleChatInputTypeSwitch.setBackgroundResource(resource.getIconInputTypeButtionVoice());
+                        moduleChatInputTypeSwitch.setBackgroundResource(resource.getIconInputTypeButtonVoice());
                         moduleChatInputEt.setVisibility(View.VISIBLE);
                         moduleChatVoiceBtn.setVisibility(View.GONE);
                         if (moduleChatInputEt.getText().toString().trim().equals("")) {
-                            moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButtion());
+                            moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButton());
                             moduleChatOtherBtn.setText("");
                         } else {
-                            moduleChatOtherBtn.setBackgroundResource(resource.getIconSendButtion());
+                            moduleChatOtherBtn.setBackgroundResource(resource.getIconSendButton());
                             moduleChatOtherBtn.setText(resource.getTextSendBtn());
                         }
                         if (moduleChatBottomLayoutGrid.getVisibility() == View.VISIBLE) {
@@ -390,12 +390,12 @@ public class ChatActivity extends AppCompatActivity implements KeyboardHeightObs
                         showSoftKeyboard(moduleChatInputEt);
                     } else {
                         moduleChatInputTypeSwitch.setSelected(true);
-                        moduleChatInputTypeSwitch.setBackgroundResource(resource.getIconInputTypeButtionKeyboard1());
+                        moduleChatInputTypeSwitch.setBackgroundResource(resource.getIconInputTypeButtonKeyboard1());
                         moduleChatInputEt.setVisibility(View.GONE);
                         moduleChatVoiceBtn.setVisibility(View.VISIBLE);
                         moduleChatEmojiBtn.setSelected(false);
                         moduleChatOtherBtn.setSelected(false);
-                        moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButtion());
+                        moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButton());
                         hideSoftKeyboard(v);
                         moduleChatBottomLayoutGrid.setVisibility(View.GONE);
 
@@ -407,10 +407,10 @@ public class ChatActivity extends AppCompatActivity implements KeyboardHeightObs
         }
 
 
-        if (resource.getIconOtherButtion() != 0) {
+        if (resource.getIconOtherButton() != 0) {
             moduleChatOtherBtn.setVisibility(View.VISIBLE);
             visibleGridView2 = true;
-            moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButtion());
+            moduleChatOtherBtn.setBackgroundResource(resource.getIconOtherButton());
         } else {
             moduleChatOtherBtn.setVisibility(View.GONE);
             moduleChatBottomLayoutGridview2.setVisibility(View.GONE);

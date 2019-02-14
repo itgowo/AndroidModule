@@ -228,8 +228,17 @@ public class GridPagerView extends RelativeLayout {
 
     public class GridItemView {
         public GridItemData data;
+        /**
+         * 自定义view时itemview为自定义view，如果有textview等需要自行在view中查找
+         */
         public View itemView;
+        /**
+         * 自定义view时这个值为null
+         */
         public ImageButton imageButton;
+        /**
+         * 自定义view时这个值为null
+         */
         public TextView textView;
 
         public GridItemView(GridItemData data, View itemView, Context context) {

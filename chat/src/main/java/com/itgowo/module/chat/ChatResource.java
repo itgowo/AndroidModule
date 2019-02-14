@@ -3,12 +3,12 @@ package com.itgowo.module.chat;
 import android.view.View;
 
 public class ChatResource {
-    private int iconInputTypeButtionVoice;
-    private int iconInputTypeButtionKeyboard1;
-    private int iconInputTypeButtionKeyboard2;
-    private int iconEmojiButtion;
-    private int iconOtherButtion;
-    private int iconSendButtion;
+    private int iconInputTypeButtonVoice;
+    private int iconInputTypeButtonKeyboard1;
+    private int iconInputTypeButtonKeyboard2;
+    private int iconEmojiButton;
+    private int iconOtherButton;
+    private int iconSendButton;
     private int bgActivity;
     private int bgFirstLine;
     private int bgInputET;
@@ -35,12 +35,12 @@ public class ChatResource {
         return this;
     }
 
-    public int getIconSendButtion() {
-        return iconSendButtion;
+    public int getIconSendButton() {
+        return iconSendButton;
     }
 
-    public ChatResource setIconSendButtion(int iconSendButtion) {
-        this.iconSendButtion = iconSendButtion;
+    public ChatResource setIconSendButton(int iconSendButton) {
+        this.iconSendButton = iconSendButton;
         return this;
     }
 
@@ -89,48 +89,48 @@ public class ChatResource {
         return this;
     }
 
-    public int getIconInputTypeButtionVoice() {
-        return iconInputTypeButtionVoice;
+    public int getIconInputTypeButtonVoice() {
+        return iconInputTypeButtonVoice;
     }
 
-    public ChatResource setIconInputTypeButtionVoice(int iconInputTypeButtionVoice) {
-        this.iconInputTypeButtionVoice = iconInputTypeButtionVoice;
+    public ChatResource setIconInputTypeButtonVoice(int iconInputTypeButtonVoice) {
+        this.iconInputTypeButtonVoice = iconInputTypeButtonVoice;
         return this;
     }
 
-    public int getIconInputTypeButtionKeyboard1() {
-        return iconInputTypeButtionKeyboard1;
+    public int getIconInputTypeButtonKeyboard1() {
+        return iconInputTypeButtonKeyboard1;
     }
 
-    public ChatResource setIconInputTypeButtionKeyboard1(int iconInputTypeButtionKeyboard1) {
-        this.iconInputTypeButtionKeyboard1 = iconInputTypeButtionKeyboard1;
+    public ChatResource setIconInputTypeButtonKeyboard1(int iconInputTypeButtonKeyboard1) {
+        this.iconInputTypeButtonKeyboard1 = iconInputTypeButtonKeyboard1;
         return this;
     }
 
-    public int getIconInputTypeButtionKeyboard2() {
-        return iconInputTypeButtionKeyboard2;
+    public int getIconInputTypeButtonKeyboard2() {
+        return iconInputTypeButtonKeyboard2;
     }
 
-    public ChatResource setIconInputTypeButtionKeyboard2(int iconInputTypeButtionKeyboard2) {
-        this.iconInputTypeButtionKeyboard2 = iconInputTypeButtionKeyboard2;
+    public ChatResource setIconInputTypeButtonKeyboard2(int iconInputTypeButtonKeyboard2) {
+        this.iconInputTypeButtonKeyboard2 = iconInputTypeButtonKeyboard2;
         return this;
     }
 
-    public int getIconEmojiButtion() {
-        return iconEmojiButtion;
+    public int getIconEmojiButton() {
+        return iconEmojiButton;
     }
 
-    public ChatResource setIconEmojiButtion(int iconEmojiButtion) {
-        this.iconEmojiButtion = iconEmojiButtion;
+    public ChatResource setIconEmojiButton(int iconEmojiButton) {
+        this.iconEmojiButton = iconEmojiButton;
         return this;
     }
 
-    public int getIconOtherButtion() {
-        return iconOtherButtion;
+    public int getIconOtherButton() {
+        return iconOtherButton;
     }
 
-    public ChatResource setIconOtherButtion(int iconOtherButtion) {
-        this.iconOtherButtion = iconOtherButtion;
+    public ChatResource setIconOtherButton(int iconOtherButton) {
+        this.iconOtherButton = iconOtherButton;
         return this;
     }
 }
