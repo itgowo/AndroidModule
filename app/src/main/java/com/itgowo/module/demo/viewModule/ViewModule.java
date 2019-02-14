@@ -136,7 +136,7 @@ public class ViewModule implements onViewModuleListener {
         messenger.setGridPageViewDataList1(dataList1, 5, 10, new GridPagerView.onGridPageViewListener() {
             @Override
             public void onBindGridItemView(GridPagerView.GridItemView itemView) {
-                Glide.with(itemView.itemView).load(itemView.data.imageUrl).into(itemView.imageButton);
+
             }
 
             @Override
@@ -160,12 +160,16 @@ public class ViewModule implements onViewModuleListener {
         messenger.setGridPageViewDataList2(dataList2, 2, 4, new GridPagerView.onGridPageViewListener() {
             @Override
             public void onBindGridItemView(GridPagerView.GridItemView itemView) {
-                Glide.with(itemView.itemView).load(itemView.data.imageUrl).into(itemView.imageButton);
+//                Glide.with(itemView.itemView).load(itemView.data.imageUrl).into(itemView.imageButton);
+                TextView textView= (TextView) itemView.itemView;
+                textView.setText("ffffsadfasdfsdfsd");
             }
 
             @Override
             public View getGridItemView(Context context, int position) {
-                return null;
+                TextView view=new TextView(context);
+                view.setText("asdfsd");
+                return view;
             }
 
             @Override

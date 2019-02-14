@@ -246,6 +246,7 @@ public class GridPagerView extends RelativeLayout {
                 }
             } else {
                 this.itemView = itemView;
+                onGridPageViewListener.onBindGridItemView(this);
             }
         }
     }
