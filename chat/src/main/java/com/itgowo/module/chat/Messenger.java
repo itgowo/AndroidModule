@@ -9,13 +9,13 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 public class Messenger<ItemType> {
-    WeakReference<List<ItemData<ItemType>>> dataList;
-    WeakReference<SwipeRefreshLayout> swipeRefreshLayout;
-    WeakReference<Context> context;
-    WeakReference<BaseAdapter> adapter;
-    WeakReference<GridPagerView> gridPageView1;
-    WeakReference<GridPagerView> gridPageView2;
-    WeakReference<onViewModuleListener> onViewModuleListener;
+   public WeakReference<List<ItemData<ItemType>>> dataList;
+    public WeakReference<SwipeRefreshLayout> swipeRefreshLayout;
+    public WeakReference<Context> context;
+    public WeakReference<BaseAdapter> adapter;
+    public  WeakReference<GridPagerView> gridPageView1;
+    public  WeakReference<GridPagerView> gridPageView2;
+    public WeakReference<onViewModuleListener> onViewModuleListener;
 
     public Context getContext() {
         return context.get();
@@ -56,7 +56,6 @@ public class Messenger<ItemType> {
             swipeRefreshLayout.get().setRefreshing(false);
         }
     }
-
 
     public void addFirstDataList(List<ItemData<ItemType>> dataList) {
         if (dataList != null) {
