@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itgowo.module.chat.ItemData;
+import com.itgowo.module.chat.Messenger;
 import com.itgowo.module.chat.ViewAction;
 import com.itgowo.module.demo.MsgEntity;
 import com.itgowo.module.demo.R;
@@ -19,7 +20,7 @@ public class ImageViewAction extends ViewAction<ImageViewAction.ImageViewActionV
 
 
     @Override
-    public void initDataAndListener(ImageViewActionViewHolder viewHolder, final ItemData<MsgEntity> item, int position) {
+    public void initDataAndListener(Messenger<MsgEntity> messenger, ImageViewActionViewHolder viewHolder, final ItemData<MsgEntity> item, int position) {
         viewHolder.timeline.setText(item.getData().getTimeLine());
         viewHolder.img.setImageResource(R.drawable.ic_launcher);
         viewHolder.name.setText(item.getData().getName());
@@ -39,7 +40,7 @@ public class ImageViewAction extends ViewAction<ImageViewAction.ImageViewActionV
     }
 
     @Override
-    public RecyclerView.ViewHolder initView(Context context, ViewGroup viewGroup) {
+    public RecyclerView.ViewHolder initView(Context context,Messenger<MsgEntity> messenger, ViewGroup viewGroup) {
         RecyclerView.ViewHolder holder = new ImageViewActionViewHolder(LayoutInflater.from(context).inflate(R.layout.listitem_image, viewGroup, false));
         return holder;
     }

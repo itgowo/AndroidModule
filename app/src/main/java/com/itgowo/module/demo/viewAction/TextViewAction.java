@@ -11,15 +11,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.itgowo.module.chat.ItemData;
+import com.itgowo.module.chat.Messenger;
 import com.itgowo.module.chat.ViewAction;
 import com.itgowo.module.demo.MsgEntity;
 import com.itgowo.module.demo.R;
 
 public class TextViewAction extends ViewAction<TextViewAction.TextViewActionViewHolder, MsgEntity> {
 
-
     @Override
-    public void initDataAndListener(TextViewActionViewHolder viewHolder, final ItemData<MsgEntity> item, int position) {
+    public void initDataAndListener(Messenger<MsgEntity> messenger, TextViewActionViewHolder viewHolder, final ItemData<MsgEntity> item, int position) {
         viewHolder.timeline.setText(item.getData().getTimeLine());
         viewHolder.content.setText(item.getData().getContent());
         viewHolder.name.setText(item.getData().getName());
@@ -33,7 +33,7 @@ public class TextViewAction extends ViewAction<TextViewAction.TextViewActionView
     }
 
     @Override
-    public RecyclerView.ViewHolder initView(Context context, ViewGroup viewGroup) {
+    public RecyclerView.ViewHolder initView(Context context, Messenger<MsgEntity> messenger, ViewGroup viewGroup) {
         RecyclerView.ViewHolder holder = new TextViewActionViewHolder(LayoutInflater.from(context).inflate(R.layout.listitem_text, viewGroup, false));
         return holder;
     }

@@ -29,6 +29,7 @@ public class Messenger<ItemType> {
         this.gridPageView1 = new WeakReference<>(gridPageView1);
         this.gridPageView2 = new WeakReference<>(gridPageView2);
         this.onViewModuleListener = new WeakReference<>(listener);
+        adapter.setMessenger(this);
     }
 
     protected void finish() {

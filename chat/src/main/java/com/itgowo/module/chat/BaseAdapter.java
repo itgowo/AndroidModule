@@ -12,6 +12,16 @@ public class BaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<ItemData> listItems;
     private Map<Integer, ViewAction> viewActionType;
     private Context context;
+    private Messenger messenger;
+
+    public Messenger getMessenger() {
+        return messenger;
+    }
+
+    public BaseAdapter setMessenger(Messenger messenger) {
+        this.messenger = messenger;
+        return this;
+    }
 
     public BaseAdapter(List<ItemData> listItems, Map<Integer, ViewAction> viewActionType, Context context) {
         this.listItems = listItems;
@@ -28,13 +38,13 @@ public class BaseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         ViewAction viewAction = viewActionType.get(viewType);
-        return viewAction.init(context, viewGroup);
+        return viewAction.init(context,messenger, viewGroup);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         ViewAction viewAction = (ViewAction) viewHolder.itemView.getTag();
-        viewAction.refreshData(viewHolder, listItems.get(position), position);
+        viewAction.refreshData(messenger,viewHolder, listItems.get(position), position);
     }
 
     @Override

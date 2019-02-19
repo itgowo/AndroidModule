@@ -141,5 +141,9 @@
     <orderEntry type="module" module-name="view" />
     <orderEntry type="module" module-name="chat" />
     <orderEntry type="module" module-name="view" />
+    <orderEntry type="module" module-name="chat" />
+    <orderEntry type="module" module-name="view" />
+    <orderEntry type="module" module-name="chat" />
+    <orderEntry type="module" module-name="view" />
   </component>
 </module>

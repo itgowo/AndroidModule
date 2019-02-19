@@ -25,17 +25,17 @@ public class FollowUpViewModule extends ViewModule {
         ItemData<MsgEntity> itemData = new ItemData<>();
         itemData.setData(new MsgEntity().setName("大王").setContent("今天天气真好啊今天天气真好啊今天天气真好啊今天天气真好啊今天天气真好啊今天天气真好啊。" + size).setTimeLine("2019年1月1日").setUserid(10086)).setType(1);
         dataList.add(itemData);
-        size++;
-        ItemData<MsgEntity> itemData1 = new ItemData<>();
-        itemData1.setData(new MsgEntity().setName("小王").setContent("是呀是呀。" + size).setTimeLine("2019年1月1日").setUserid(10087)).setType(2);
-        dataList.add(itemData1);
-        size++;
-        ItemData<MsgEntity> itemData2 = new ItemData<>();
-        itemData2.setData(new MsgEntity().setName("大王").setContent("今天天气真好啊。" + size).setTimeLine("2019年1月1日").setUserid(10086)).setType(3);
-        dataList.add(itemData2);
-        ItemData<MsgEntity> itemData3 = new ItemData<>();
-        itemData3.setData(new MsgEntity().setName("小王").setContent("是呀是呀。" + size).setTimeLine("2019年1月1日").setUserid(10087)).setType(4);
-        dataList.add(itemData3);
+//        size++;
+//        ItemData<MsgEntity> itemData1 = new ItemData<>();
+//        itemData1.setData(new MsgEntity().setName("小王").setContent("是呀是呀。" + size).setTimeLine("2019年1月1日").setUserid(10087)).setType(2);
+//        dataList.add(itemData1);
+//        size++;
+//        ItemData<MsgEntity> itemData2 = new ItemData<>();
+//        itemData2.setData(new MsgEntity().setName("大王").setContent("今天天气真好啊。" + size).setTimeLine("2019年1月1日").setUserid(10086)).setType(3);
+//        dataList.add(itemData2);
+//        ItemData<MsgEntity> itemData3 = new ItemData<>();
+//        itemData3.setData(new MsgEntity().setName("小王").setContent("是呀是呀。" + size).setTimeLine("2019年1月1日").setUserid(10087)).setType(4);
+//        dataList.add(itemData3);
         messenger.addFirstDataList(dataList);
     }
 }
